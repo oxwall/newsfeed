@@ -1,0 +1,5 @@
+<div {if count($feed)}style="display: none;"{/if} class="owm_newsfeed_nocontent owm_nocontent">{text key="newsfeed+empty_feed_message"}</div>
+
+{foreach from=$feed item=item name=feed}
+    {newsfeed_item action=$item lastItem=$smarty.foreach.feed.last}
+{/foreach}

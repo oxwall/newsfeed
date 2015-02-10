@@ -1,0 +1,31 @@
+{if $vars.status}<div class="owm_newsfeed_body_status">{$vars.status}</div>{/if}
+<div class="owm_newsfeed_body_cont">
+    <div class="owm_newsfeed_item_box clearfix">
+        <div class="owm_newsfeed_item_padding">
+            <div class="owm_newsfeed_body_icon {if $vars.iconClass}{$vars.iconClass}{/if}"></div>
+            <div class="owm_newsfeed_body_info_wrap">
+                <div class="owm_newsfeed_body_info">
+                    <div class="owm_newsfeed_body_title"><b>{if $vars.url}<a href="{$vars.url}">{/if}{$vars.title}{if $vars.url}</a>{/if}</b></div>
+                    {if $vars.description}<div class="owm_newsfeed_body_descr">{$vars.description}</div>{/if}
+                </div>
+            </div>
+        </div>
+        {if !empty($vars.activity)}
+        <div class="owm_newsfeed_body_activity">
+            <div class="owm_newsfeed_item_padding">
+                {if !empty($vars.activity.avatarData)}
+                <div class="owm_newsfeed_body_activity_pic">
+                    {decorator name="avatar_item" data=$vars.activity.avatarData}
+                </div>
+                {/if}
+                <div class="owm_newsfeed_body_activity_info_wrap">
+                    <div class="owm_newsfeed_body_activity_info">
+                        {if !empty($vars.activity.title)}<div class="owm_newsfeed_body_activity_title">{$vars.activity.title}</div>{/if}
+                        {if !empty($vars.activity.description)}<div class="owm_newsfeed_body_activity_descr">{$vars.activity.description}</div>{/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
+    </div>
+</div>

@@ -1,0 +1,127 @@
+{style}{literal}
+    .ow_newsfeed_line
+    {
+        display: block;
+    }
+{/literal}{/style}
+
+<li id="{$item.autoId}" class="ow_newsfeed_item {$item.view.class} {if !empty($item.line)}ow_newsfeed_line_item{/if}" style="{$item.view.style}">
+	<div class="clearfix">
+            
+	    {if empty($item.line)}
+	        <div class="ow_newsfeed_avatar">
+                    {*foreach from=$item.users item="user"}
+                        {decorator name="avatar_item" url=$user.url src=$user.avatarUrl label=$user.roleLabel.label labelColor=$user.roleLabel.labelColor}
+                    {/foreach*}
+                    {decorator name="avatar_item" url=$item.user.url src=$item.user.avatarUrl label=$item.user.roleLabel.label labelColor=$item.user.roleLabel.labelColor}
+	        </div>
+	    {else}
+	         <div class="ow_newsfeed_line ow_smallmargin ow_ic_info ow_icon_control">
+	            {if $item.context}<a href="{$item.context.url}">{$item.context.label}</a> &raquo; {/if}{$item.line}
+	         </div>
+	    {/if}
+
+	    <div class="ow_newsfeed_body">
+	        <div class="ow_newsfeed_context_menu_wrap">
+                    <div class="ow_newsfeed_context_menu">
+                       {$item.contextActionMenu}
+                    </div>
+                    {if empty($item.line)}
+                        <div class="ow_newsfeed_string ow_small ow_smallmargin">
+                           <a href="{$item.user.url}"><b>{$item.user.name}</b></a>
+                           {if $item.context}  &raquo; <a href="{$item.context.url}">{$item.context.label}</a>{/if}
+                           {$item.string}
+                        </div>
+                    {/if}
+
+                    {if $item.content}
+                        <div class="ow_newsfeed_content ow_smallmargin">{$item.content}</div>
+                    {/if}
+                </div>
+
+            {if !empty($item.toolbar)}
+            {strip}
+	        <div class="ow_newsfeed_toolbar ow_small ow_remark clearfix">
+	            <span class="ow_newsfeed_toolbar_space">&nbsp;</span>
+
+	            {foreach from=$item.toolbar item=toolbarItem}
+                    <span class="ow_newsfeed_control ow_nowrap {if !empty($toolbarItem.class)}{$toolbarItem.class}{/if}">
+                        {if !empty($toolbarItem.href)}
+                            <a href="{$toolbarItem.href}">{$toolbarItem.label}</a>
+                        {else}
+                            {$toolbarItem.label}
+                        {/if}
+                        <span class="ow_newsfeed_toolbar_space">&nbsp;</span>
+                    </span>
+                {/foreach}
+	        </div>
+	    {/strip}
+            {/if}
+
+            <div class="ow_newsfeed_btns ow_small ow_remark clearfix">
+
+                <a href="{$item.permalink}" class="ow_nowrap create_time ow_newsfeed_date ow_small">{$item.createTime}</a>
+
+                <div class="ow_newsfeed_left">
+                    <span class="ow_newsfeed_control">
+                        {if $item.features.system.comments}
+                        <span class="ow_newsfeed_btn_wrap {if $item.features.system.comments.expanded}ow_newsfeed_active{/if}">
+                            <span class="ow_miniic_control ow_cursor_pointer newsfeed_comment_btn_cont {if $item.features.system.comments.expanded}active{/if}">
+                                <span class="ow_miniic_comment newsfeed_comment_btn {if $item.features.system.comments.expanded}newsfeed_active_button{/if}"></span>
+                            </span><span class="newsfeed_counter_comments">{$item.features.system.comments.count}</span>
+                        </span>
+                        {/if}
+
+                        {foreach from=$item.features.custom item="btn"}
+                            <span class="ow_newsfeed_btn_wrap {if !empty($btn.class)}{$btn.class}{/if}">
+                                <span class="ow_miniic_control ow_cursor_pointer newsfeed-feature-button-control {if !empty($btn.active)}active{/if}">
+                                    <span {if !empty($btn.title)}title="{$btn.title}"{/if} class="{$btn.iconClass} newsfeed-feature-button" {if !empty($btn.onclick)}onclick="{$btn.onclick}"{/if} ></span>
+                                </span><span class="ow_newsfeed_btn_label newsfeed-feature-label">{$btn.label}</span>
+                            </span>
+
+                            {if isset($btn.string)}
+                                <span class="ow_newsfeed_btn_string newsfeed-feature-string">
+                                    {$btn.string}
+                                </span>
+                            {/if}
+                        {/foreach}
+
+                        {if $item.features.system.likes}
+                        <span class="ow_newsfeed_btn_wrap {if $item.features.system.likes.liked}ow_newsfeed_active{/if}">
+                            <span class="ow_miniic_control {if $item.features.system.likes.allow}ow_cursor_pointer{/if} newsfeed_like_btn_cont {if $item.features.system.likes.liked}active{/if}">
+                                <span {if !empty($item.features.system.likes.error)}data-error="{$item.features.system.likes.error}"{/if} class="ow_miniic_like {if $item.features.system.likes.allow}newsfeed_like_btn{/if} {if $item.features.system.likes.liked}newsfeed_active_button{/if}"></span>
+                            </span><span class="newsfeed_counter_likes">{$item.features.system.likes.count}</span>
+                        </span>
+
+                        <div class="ow_newsfeed_string">
+                            <div class="newsfeed_likes_string" {if !$item.features.system.likes.count}style="display: none"{/if}>
+                                {$item.features.system.likes.cmp}
+                            </div>
+                        </div>
+                        {/if}
+                    </span>
+
+                </div>
+            </div>
+
+            {if $item.features.system.comments}
+                <div {if !$item.features.system.comments.expanded}style="display: none"{/if} class="newsfeed-comments-cont ow_newsfeed_features">
+                    {block_decorator name='tooltip' addClass='ow_newsfeed_tooltip ow_add_comments_form ow_small'}
+                        {if $item.features.system.comments}
+                            <div class="ow_newsfeed_comments">
+                                {$item.features.system.comments.cmp}
+                            </div>
+                        {/if}
+                    {/block_decorator}
+                </div>
+            {/if}
+
+	    </div>
+            
+            
+	</div>
+
+        {if !empty($item.cycle)}
+            <div {if $item.cycle.lastItem}style="display: none"{/if} class="newsfeed-item-delim ow_border ow_newsfeed_delimiter ow_newsfeed_doublesided_stdmargin"></div>
+        {/if}
+</li>

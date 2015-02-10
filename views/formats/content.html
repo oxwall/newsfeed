@@ -1,0 +1,29 @@
+{if !empty($vars.status)}<div class="ow_newsfeed_body_status">{$vars.status|more:300}</div>{/if}
+<div class="clearfix">
+    <div class="ow_newsfeed_item_content">
+        <a class="ow_newsfeed_item_title" href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}">{$vars.title}</a>
+        <div class="ow_remark ow_smallmargin">{$vars.description}</div>
+
+        {if !empty($vars.activity)}
+        <div class="ow_newsfeed_action_activity forum_newsfeed_activity">
+        <div class="ow_small ow_newsfeed_activity">
+            <div class="ow_newsfeed_activity_title">
+                {if isset($vars.activity.url)}
+                    <a href="{$vars.activity.url}">{$vars.activity.title}</a>
+                {else}
+                    {$vars.activity.title}
+                {/if}
+            </div>
+            <div class="ow_border ow_newsfeed_activity_content">
+                {decorator name='mini_ipc'
+                    avatar=$vars.activity.avatarData
+                    content=$vars.activity.description
+                    profileUrl=$vars.activity.avatarData.url
+                    displayName=$vars.activity.avatarData.title
+                }
+            </div>
+        </div>
+        </div>
+        {/if}
+    </div>
+</div>

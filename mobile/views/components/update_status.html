@@ -1,0 +1,69 @@
+{script}
+    function nfShowStatusForm( focus ) {
+        OWM.FloatBox({
+            "content": $("#newsfeed-status-form")
+        });
+        
+        if ( focus !== false )
+            $("#newsfeed_status_input").focus();
+            
+        $("#newsfeed_status_save_btn_c").removeClass("owm_preloader_circle");
+            
+        return false;
+    };
+
+    $("#newsfeed-status-form-inv").click(nfShowStatusForm);
+    
+    {if !empty($focused)}
+        window.setTimeout(function() {
+            nfShowStatusForm(false);
+        }, 10);
+    {/if}
+    
+    $("#newsfeed-att-file").change(function() {
+        var img = $('#newsfeed-att-file-prevew img');
+        var name = $("#newsfeed-att-file-name span");
+        
+        img.hide();
+        name.text("");
+    
+        if (!this.files || !this.files[0]) {
+            return
+        };
+
+        if ( window.FileReader ) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                img.show().attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(this.files[0]);
+        } else {
+            name.text(this.files[0].name);
+        }
+    });
+{/script}
+
+<div class="owm_newsfeed_status_update owm_bg_color_2 clearfix" id="newsfeed-status-form-inv">
+    <span class="owm_newsfeed_status_update_add_icon"></span>
+    <textarea class="owm_invitation">{text key="newsfeed+status_field_invintation"}</textarea>
+</div>
+
+<div style="display: none">
+    <iframe name="newsfeed-status-submit-frame"></iframe>
+    <div class="owm_newsfeed_block clearfix" id="newsfeed-status-form">
+        {form name="newsfeed_update_status" target="newsfeed-status-submit-frame"}
+        <div class="owm_newsfeed_status_update_edit owm_bg_color_2">
+            {input name="status" id="newsfeed_status_input"}
+        </div>
+        <div class="owm_newsfeed_status_update_btns owm_padding owm_bg_color_3 clearfix">
+            <div class="owm_newsfeed_status_update_add_cont owm_float_left">
+                <a href="javascript://" class="owm_newsfeed_status_update_add_icon"><input accept="image/*" type="file" id="newsfeed-att-file" name="attachment"></a>
+                <span class="owm_newsfeed_status_update_add_name" id="newsfeed-att-file-prevew"><img style="height: 30px; display: none;" /><span></span></span>
+            </div>
+            <div id="newsfeed_status_save_btn_c" class="owm_newsfeed_status_update_btn owm_float_right">{submit name="save"}</div>
+        </div>
+        {/form}
+    </div>
+</div>

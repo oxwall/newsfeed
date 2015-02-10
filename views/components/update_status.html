@@ -1,0 +1,57 @@
+{style}{literal}
+
+textarea.ow_newsfeed_status_input {
+    height: 50px;
+}
+
+textarea.ow_newsfeed_status_input.invitation {
+    height: 20px;
+}
+
+.newsfeed-attachment-preview {
+    width: 95%;
+}
+.ow_side_preloader {
+	float: right;
+	padding: 0px 4px 0px 0px;
+	margin-top: 6px;
+}
+.ow_side_preloader {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+}
+
+{/literal}{/style}
+
+{form name="newsfeed_update_status"}
+	<div class="form_auto_click">
+		<div class="clearfix">
+			<div class="newsfeed_update_status_picture">
+			</div>
+			<div class="newsfeed_update_status_info">
+				<div class="ow_smallmargin">{input name="status" class="ow_newsfeed_status_input"}</div>
+			</div>
+		</div>
+		
+                <div id="attachment_preview_{$uniqId}-oembed" class="newsfeed-attachment-preview ow_smallmargin" style="display: none;"></div>
+                {*<div id="attachment_preview_{$uniqId}" class="newsfeed-attachment-preview ow_smallmargin">*}
+                    {$attachment}
+                {*</div>*}
+            
+		<div class="ow_submit_auto_click" style="text-align: left;">
+			<div class="clearfix ow_status_update_btn_block">
+				<span class="ow_attachment_btn">{submit name="save"}</span>
+                                <span class="ow_attachment_icons">
+                                    <span class="ow_attachments" id="{$uniqId}-btn-cont" >
+                                        <span class="buttons clearfix">
+                                            <a class="image" id="{$uniqId}-btn" href="javascript://"></a>
+                                        </span>
+                                    </span>
+                                </span>
+				<span class="ow_side_preloader_wrap"><span class="ow_side_preloader ow_inprogress newsfeed-status-preloader" style="display: none;"></span></span>
+			</div>
+		</div>
+	</div>
+{/form}

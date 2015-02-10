@@ -1,0 +1,66 @@
+{style}{literal}
+
+.comments_count input {
+    width: 50px;
+}
+
+{/literal}{/style}
+
+{script}{literal}
+
+$('#allow_comments_btn').click(function() {
+    if ( this.checked )
+    {
+        $('#comments_count_c').show();
+    }
+    else
+    {
+        $('#comments_count_c').hide();
+    }
+});
+
+{/literal}{/script}
+
+{$menu}
+
+{form name='NEWSFEED_ConfigSaveForm'}
+<table class="ow_table_1 ow_form">
+    <tr class="ow_tr_first">
+        <th class="ow_name ow_txtleft" colspan="3">
+            <span class="ow_section_icon ow_ic_gear_wheel">{text key='newsfeed+admin_settings_title'}</span>
+        </th>
+    </tr>
+
+    <tr class="ow_alt1">
+        <td class="ow_label">{label name='index_status_enabled'}</td>
+        <td class="ow_value">{input name='index_status_enabled'}</td>
+        <td class="ow_desc ow_small"></td>
+    </tr>
+
+    <tr class="ow_alt2">
+        <td class="ow_label">{label name='allow_likes'}</td>
+        <td class="ow_value">{input name='allow_likes'}</td>
+        <td class="ow_desc ow_small"></td>
+    </tr>
+
+    <tr class="ow_alt1">
+        <td class="ow_label">{label name='features_expanded'}</td>
+        <td class="ow_value ">{input name='features_expanded'}</td>
+        <td class="ow_desc ow_small"></td>
+    </tr>
+
+    <tr class="ow_alt2">
+        <td class="ow_label">{label name='allow_comments'}</td>
+        <td class="ow_value">{input name='allow_comments' id="allow_comments_btn"}</td>
+        <td class="ow_desc ow_small"></td>
+    </tr>
+    <tr class="ow_alt1 ow_tr_last" id="comments_count_c" {if !$configs.allow_comments}style="display: none;"{/if}>
+        <td class="ow_label">{label name='comments_count'}</td>
+        <td class="ow_value comments_count">{input name='comments_count'}</td>
+        <td class="ow_desc ow_small">{text key='newsfeed+admin_comments_count_desc'}</td>
+    </tr>
+
+</table>
+<div class="clearfix ow_stdmargin"><div class="ow_right">{submit name='save' class='ow_ic_save ow_positive'}</div><div class="ow_right"></div></div>
+
+{/form}

@@ -1,0 +1,29 @@
+<div class="owm_newsfeed_body_status">{$vars.status}</div>
+<div class="owm_newsfeed_body_pic">
+    <a href="{if $vars.url}{$vars.url}{else}javascript://{/if}" style="background-image: url({$vars.image});"><img src="{$blankImg}"></a>
+</div>
+<div class="owm_newsfeed_body_cont">
+    <div class="owm_newsfeed_item_padding owm_newsfeed_item_box clearfix">
+        <div class="owm_newsfeed_body_icon {if $vars.iconClass}{$vars.iconClass}{/if}"></div>
+        <div class="owm_newsfeed_body_info_wrap">
+            <div class="owm_newsfeed_body_info">
+                <div class="owm_newsfeed_body_title"><b>{if $vars.url}<a href="{$vars.url}">{/if}{$vars.title}{if $vars.url}</a>{/if}</b></div>
+                <div class="owm_newsfeed_body_descr">{$vars.description}</div>
+            </div>
+        </div>
+    </div>
+    {if $vars.userList}
+        <div class="owm_newsfeed_ulist">
+            <div class="owm_newsfeed_item_padding owm_newsfeed_item_box clearfix">
+                <div class="owm_newsfeed_ulist_count">
+                    {$vars.userList.label}
+                </div>
+                <div class="owm_newsfeed_ulist_avatars">
+                    {foreach from=$vars.userList.list item="user"}
+                        {decorator name="avatar_item" data=$user}
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+    {/if}
+</div>

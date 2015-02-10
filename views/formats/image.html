@@ -1,0 +1,8 @@
+{if !empty($vars.status)}<div class="ow_newsfeed_body_status ow_smallmargin">{$vars.status|more:300}</div>{/if}
+
+<div class="ow_newsfeed_large_image clearfix">
+    <div class="ow_newsfeed_item_picture">
+        <a {if empty($vars.url)}href="{$vars.image}" onclick="OW.showImageInFloatBox(this.href); return false;"{else}href="{$vars.url}"{/if}>
+            <img src="{$vars.image}"></a>
+    </div>
+</div>

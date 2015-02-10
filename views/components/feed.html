@@ -1,0 +1,132 @@
+{style}{literal}
+
+    ul.ow_newsfeed {
+        padding: 5px 0px 0px 5px;
+    }
+
+    .ow_newsfeed_avatar {
+        height: 45px;
+        width: 45px;
+        margin-right: -45px;
+        float: left;
+    }
+
+    .ow_newsfeed_avatar img {
+        height: 45px;
+        width: 45px;
+    }
+
+    .ow_newsfeed_body {
+        margin-left: 45px;
+        padding-left: 10px;
+    }
+
+    .ow_newsfeed .ow_newsfeed_item {
+       list-style-image: none;
+        position: relative;
+    }
+
+    .ow_newsfeed_toolbar {
+        float: none;
+    }
+
+    .ow_newsfeed .ow_comments_list {
+        margin-bottom: 0px;
+    }
+
+    .ow_newsfeed_remove {
+        position: absolute;
+        top: 5px;
+        right: 0px;
+        display: none;
+    }
+
+    .ow_newsfeed_body:hover .ow_newsfeed_remove {
+        display: block;
+    }
+
+    .ow_newsfeed_delimiter {
+        border-bottom-width: 1px;
+        height: 1px;
+        margin-bottom: 7px;
+    }
+
+    .ow_newsfeed_doublesided_stdmargin {
+        margin: 14px 0px;
+    }
+
+    .ow_newsfeed_likes {
+        margin-bottom: 3px;
+    }
+
+    .ow_newsfeed_tooltip .tail {
+        padding-left: 25px;
+    }
+
+    .ow_newsfeed_placeholder {
+        height: 30px;
+        background-position: center 5px;
+    }
+
+    .ow_newsfeed_view_more_c {
+        text-align: center;
+    }
+
+    .ow_newsfeed_string {
+    	max-width: 600px;
+    }
+
+    .ow_newsfeed_item_content {
+        float: left;
+        min-width: 50px;
+        width: 69%;
+        max-width: 440px;
+    }
+
+    .ow_newsfeed_features {
+        max-width: 450px;
+        overflow: hidden;
+        min-height: 62px;
+    }
+
+    .ow_newsfeed_feedback_counter {
+        padding: 2px 5px;
+    }
+
+    .ow_newsfeed_activity_content {
+        border-top-style: dashed;
+        border-top-width: 1px;
+        padding-top: 3px;
+    }
+
+    .ow_newsfeed_comments .ow_add_comments_form
+    {
+        margin-bottom: 0px;
+    }
+    .ow_video_playing iframe,
+    .ow_video_playing object,
+    .ow_video_playing embed {
+        width:100%;
+    }
+{/literal}{/style}
+<div id="{$autoId}">
+    {if !empty($statusMessage)}
+        <div class="ow_smallmargin ow_center">
+            {$statusMessage}
+        </div>
+    {elseif !empty($status)}
+        <div class="ow_smallmargin">
+            {$status}
+        </div>
+    {/if}
+    
+    <ul class="ow_newsfeed ow_smallmargin">
+        {$list}
+    </ul>
+    
+    {if $viewMore}
+            <div class="ow_newsfeed_view_more_c">
+                {decorator name="button" class="ow_newsfeed_view_more ow_ic_down_arrow" langLabel="newsfeed+feed_view_more_btn"}
+            </div>
+    {/if}
+</div>

@@ -1,0 +1,27 @@
+{if !empty($vars.status)}<div class="owm_newsfeed_body_status">{$vars.status}</div>{/if}
+<div class="owm_newsfeed_body_cont">
+    <div class="owm_newsfeed_imglist_scroller owm_newsfeed_imglist_scroller_1">
+        <div class="owm_newsfeed_imglist_wrap">
+            <div class="owm_newsfeed_imglist clearfix">
+                <div class="owm_newsfeed_imglist_section clearfix">
+                    <div class="owm_newsfeed_imglist_item">
+                        <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}" style="background-image: url({$vars.image});"><img src="{$vars.blankImg}"></a>
+                    </div>
+                </div>
+                <div class="owm_newsfeed_imglist_section clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+    {if $vars.info}
+    <div class="owm_newsfeed_imglist_info">
+        <div class="owm_newsfeed_item_padding">
+            {if isset($vars.info.text)}
+                {$vars.info.text}
+            {elseif isset($vars.info.route)}
+                {if isset($vars.info.route.textKey)}{text key=$vars.info.route.textKey}: {/if}<a href="{$vars.info.url}">{$vars.info.route.label}</a>
+            {/if}
+        </div>
+    </div>
+    {/if}
+</div>

@@ -1,0 +1,39 @@
+{if !empty($vars.status)}<div class="owm_newsfeed_body_status">{$vars.status}</div>{/if}
+<div class="owm_newsfeed_body_cont">
+    <div class="owm_newsfeed_imglist_scroller owm_newsfeed_imglist_scroller_{$totalCount}">
+        <div class="owm_newsfeed_imglist_wrap">
+            <div class="owm_newsfeed_imglist clearfix">
+                {assign var='cnt' value=0}
+                {foreach from=$list item='image' name='img'}
+                    {if $cnt == $count}{assign var='cnt' value=0}{/if}
+                    {assign var='cnt' value=$cnt+1}
+                    {if $cnt == 1}<div class="owm_newsfeed_imglist_section clearfix">{/if}
+                    <div class="owm_newsfeed_imglist_item">
+                        {if !empty($vars.more) && $smarty.foreach.img.last && $moreCount}
+                            <a href="{$vars.more.url}" style="background-image: url({$image.image});">
+                                <div class="owm_newsfeed_imglist_filter" style="display: block">
+                                    <span>{text key='photo+feed_more_items' moreCount=$moreCount}</span><div></div>
+                                </div>
+                                <img src="{$vars.blankImg}">
+                            </a>
+                        {else}
+                            <a href="{if !empty($image.url)}{$image.url}{else}javascript://{/if}" style="background-image: url({$image.image});"><img src="{$vars.blankImg}"></a>
+                        {/if}
+                    </div>
+                    {if $cnt == $count && $smarty.foreach.img.iteration != 1 || $smarty.foreach.img.last}</div>{/if}
+                {/foreach}
+            </div>
+        </div>
+    </div>
+    {if $vars.info}
+    <div class="owm_newsfeed_imglist_info">
+        <div class="owm_newsfeed_item_padding">
+            {if isset($vars.info.text)}
+                {$vars.info.text}
+            {elseif isset($vars.info.route)}
+                {if isset($vars.info.route.textKey)}{text key=$vars.info.route.textKey}: {/if}<a href="{$vars.info.url}">{$vars.info.route.label}</a>
+            {/if}
+        </div>
+    </div>
+    {/if}
+</div>

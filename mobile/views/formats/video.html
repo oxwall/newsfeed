@@ -1,0 +1,15 @@
+{if !empty($vars.status)}<div class="owm_newsfeed_body_status">{$vars.status}</div>{/if}
+<div class="owm_newsfeed_body_pic">
+    <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}" {if empty($vars.url)}class="ow_format_video_play"{/if} style="background-image: url({$vars.image});"><span class="owm_newsfeed_body_pic_icon"></span><img src="{$vars.blankImg}" /></a>
+    {if $vars.embed}<textarea class="ow_format_video_embed" style="display: none;">{$vars.embed}</textarea>{/if}
+</div>
+<div class="owm_newsfeed_body_cont">
+    <div class="owm_newsfeed_item_padding owm_newsfeed_item_box clearfix">
+        <div class="owm_newsfeed_body_info_wrap">
+            <div class="owm_newsfeed_body_info">
+                <div class="owm_newsfeed_body_title"><b>{$vars.title}</b></div>
+                <div class="owm_newsfeed_body_descr">{$vars.description}</div>
+            </div>
+        </div>
+    </div>
+</div>

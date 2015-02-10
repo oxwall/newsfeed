@@ -1,0 +1,18 @@
+<div id="{$autoId}" class="owm_newsfeed_block">
+    {if !empty($status)}
+        {$status}
+    {/if}
+    
+    <div class="owm_newsfeed_list">
+        {$list}
+    </div>
+    
+    {if !empty($viewMore)}
+        {capture name="feedMoreCount"}<span class="feed-more-count">{$viewMore}</span>{/capture}
+        <div style="visibility: hidden;" class="feed-load-more owm_newsfeed_comment_load_more owm_load_more">
+            <span class="owm_newsfeed_comment_load_txt">
+                {text key='newsfeed+view_more_count_label' count=$smarty.capture.feedMoreCount}
+            </span>
+        </div>
+    {/if}
+</div>
