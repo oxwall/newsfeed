@@ -164,7 +164,7 @@ class NEWSFEED_MCLASS_EventHandler
         }
         
         $driver = OW::getClassInstance("NEWSFEED_CLASS_FeedDriver");
-        $feed = OW::getClassInstance("NEWSFEED_MCMP_Feed", "user", $userId);
+        $feed = OW::getClassInstance("NEWSFEED_MCMP_Feed", $driver, "user", $userId);
 
         $isBloacked = BOL_UserService::getInstance()->isBlocked(OW::getUser()->getId(), $userId);
         
