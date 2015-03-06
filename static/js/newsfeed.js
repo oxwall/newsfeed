@@ -6,7 +6,7 @@ var NEWSFEED_Ajax = function( url, data, callback, type ) {
         type: type === "POST" ? type : "GET",
         url: url,
         data: data,
-        success: callback,
+        success: callback || $.noop(),
         dataType: "json"
     });
 };
