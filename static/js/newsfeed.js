@@ -3,7 +3,7 @@ window.ow_newsfeed_feed_list = {};
 
 var NEWSFEED_Ajax = function( url, data, callback, type ) {
     $.ajax({
-        type: typeof type != "undefined" && type == "POST" ? type : "GET",
+        type: type === "POST" ? type : "GET",
         url: url,
         data: data,
         success: callback,
@@ -293,13 +293,11 @@ NEWSFEED_FeedItem.prototype =
                         this.hasAttachment = this.$attachment.length;
 
                         this.$attachment.find('.newsfeed_attachment_remove').click(function(){
-                            var rsp = window.ow_newsfeed_const.REMOVE_ATTACHMENT;
-
                             self.$attachment.animate({opacity: 'hide', height: 'hide'}, 'fast', function() {
                                 self.$attachment.remove();
                             });
 
-                            $.post(rsp, {actionId: self.id});
+                            NEWSFEED_Ajax(window.ow_newsfeed_const.REMOVE_ATTACHMENT, {actionId: self.id}, '', "POST");
 
                             return false;
                         });
@@ -436,9 +434,9 @@ NEWSFEED_FeedItem.prototype =
 
 		remove: function()
 		{
-			var self = this, rsp = window.ow_newsfeed_const.DELETE_RSP;
+			var self = this;
 
-			$.post(rsp, {actionId: this.id}, function( msg )
+                        NEWSFEED_Ajax(window.ow_newsfeed_const.DELETE_RSP, {actionId: this.id}, function(msg)
                         {
                             if ( self.displayType == 'page' )
                             {
@@ -449,7 +447,7 @@ NEWSFEED_FeedItem.prototype =
 
                                 self.$removeBtn.hide();
                             }
-                        });
+                        }, "POST");
 
                         if ( self.displayType != 'page' )
                         {

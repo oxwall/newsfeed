@@ -233,27 +233,30 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
             exit;
         }
 
-        // check for the moderation 
-        if ( OW::getUser()->isAuthorized("newsfeed") ) {
-            $this->removeAction($id);
-        }
+        // check permissions
+        $removeAllowed = OW::getUser()->isAuthorized("newsfeed");
 
-        $activities = $this->service->
-                findActivity(NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_CREATE . ':' . $dto->id);
+        if ( !$removeAllowed )
+        {
+            $activities = $this->service->
+                    findActivity(NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_CREATE . ':' . $dto->id);
 
-        // check for the ownership
-        foreach ($activities as $activity) {
-            if ( OW::getUser()->getId() == $activity->userId ) {
-                $this->removeAction($id);
+            // check for the ownership
+            foreach ($activities as $activity) {
+                if ( OW::getUser()->getId() == $activity->userId ) {
+                    $removeAllowed = true;
+                    break;
+                }
             }
         }
-    }
 
-    private function removeAction( $id )
-    {
-        $this->service->removeActionById($id);
+        if ( $removeAllowed )
+        {
+            $this->service->removeActionById($id);
+            echo json_encode(OW::getLanguage()->text('newsfeed', 'item_deleted_feedback'));            
+        }
 
-        exit( OW::getLanguage()->text('newsfeed', 'item_deleted_feedback') );
+        exit;
     }
 
     public function removeAttachment()
