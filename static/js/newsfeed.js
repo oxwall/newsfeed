@@ -1,8 +1,14 @@
 window.ow_newsfeed_const = {};
 window.ow_newsfeed_feed_list = {};
 
-var NEWSFEED_Ajax = function( url, data, callback ) {
-    return $.getJSON(url, data, callback);
+var NEWSFEED_Ajax = function( url, data, callback, type ) {
+    $.ajax({
+        type: typeof type != "undefined" && type == "POST" ? type : "GET",
+        url: url,
+        data: data,
+        success: callback,
+        dataType: "json"
+    });
 };
 
 var NEWSFEED_Feed = function(autoId, data)
@@ -390,7 +396,7 @@ NEWSFEED_FeedItem.prototype =
 		    	self.likes = parseInt(c.count);
 		        self.showLikes(c.markup);
 		        self.refreshCounter();
-		    });
+		    }, "POST");
 		},
 
 		unlike: function()
@@ -406,6 +412,7 @@ NEWSFEED_FeedItem.prototype =
                     this.$likeBtnCont.removeClass('active');
 
                     this.likesInprogress = true;
+ 
 		    NEWSFEED_Ajax(window.ow_newsfeed_const.UNLIKE_RSP, {entityType: self.entityType, entityId: self.entityId}, function(c)
                     {
                         self.likesInprogress = false;
@@ -413,7 +420,7 @@ NEWSFEED_FeedItem.prototype =
 		    	self.likes = parseInt(c.count);
 		        self.showLikes(c.markup);
 		        self.refreshCounter();
-		    });
+		    }, "POST");
 		},
 
 		showLikes: function( likesHtml )
@@ -431,7 +438,7 @@ NEWSFEED_FeedItem.prototype =
 		{
 			var self = this, rsp = window.ow_newsfeed_const.DELETE_RSP;
 
-			$.get(rsp, {actionId: this.id}, function( msg )
+			$.post(rsp, {actionId: this.id}, function( msg )
                         {
                             if ( self.displayType == 'page' )
                             {
