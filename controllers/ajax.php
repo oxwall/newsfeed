@@ -258,13 +258,14 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
 
     public function removeAttachment()
     {
-        if ( empty($_GET['actionId']) )
+        $id = !empty($_POST['actionId']) ? (int) $_POST['actionId'] : null;
+
+        if ( !$id )
         {
             throw new Redirect404Exception();
         }
 
-        $actionId = (int) $_GET['actionId'];
-        $dto = $this->service->findActionById($actionId);
+        $dto = $this->service->findActionById($id);
         $data = json_decode($dto->data, true);
 
         if( !empty($data['attachmentId']) )

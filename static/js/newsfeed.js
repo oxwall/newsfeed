@@ -299,7 +299,7 @@ NEWSFEED_FeedItem.prototype =
                                 self.$attachment.remove();
                             });
 
-                            $.get(rsp, {actionId: self.id});
+                            $.post(rsp, {actionId: self.id});
 
                             return false;
                         });
