@@ -63,8 +63,8 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
             throw new AuthenticateException();
         }
 
-        $entityType = $_GET['entityType'];
-        $entityId = (int) $_GET['entityId'];
+        $entityType = !empty($_POST['entityType']) ?  $_POST['entityType'] : null;
+        $entityId = !empty($_POST['entityId']) ? (int) $_POST['entityId'] : null;
 
         $like = $this->service->addLike(OW::getUser()->getId(), $entityType, $entityId);
 
@@ -100,8 +100,8 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
             throw new AuthenticateException();
         }
 
-        $entityType = $_GET['entityType'];
-        $entityId = (int) $_GET['entityId'];
+        $entityType = !empty($_POST['entityType']) ?  $_POST['entityType'] : null;
+        $entityId = !empty($_POST['entityId']) ? (int) $_POST['entityId'] : null;
 
         $this->service->removeLike(OW::getUser()->getId(), $entityType, $entityId);
 
@@ -219,12 +219,13 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
 
     public function remove()
     {
-        if ( empty($_GET['actionId']) )
+        $id = !empty($_POST['actionId']) ? (int) $_POST['actionId'] : null;
+
+        if ( !$id )
         {
             throw new Redirect404Exception();
         }
 
-        $id = (int) $_GET['actionId'];
         $dto = $this->service->findActionById($id);
 
         if ( empty($dto) )
@@ -232,20 +233,42 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
             exit;
         }
 
-        $this->service->removeActionById($id);
+        // check permissions
+        $removeAllowed = OW::getUser()->isAuthorized("newsfeed");
 
-        exit( OW::getLanguage()->text('newsfeed', 'item_deleted_feedback') );
+        if ( !$removeAllowed )
+        {
+            $activities = $this->service->
+                    findActivity(NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_CREATE . ':' . $dto->id);
+
+            // check for the ownership
+            foreach ($activities as $activity) {
+                if ( OW::getUser()->getId() == $activity->userId ) {
+                    $removeAllowed = true;
+                    break;
+                }
+            }
+        }
+
+        if ( $removeAllowed )
+        {
+            $this->service->removeActionById($id);
+            echo json_encode(OW::getLanguage()->text('newsfeed', 'item_deleted_feedback'));            
+        }
+
+        exit;
     }
 
     public function removeAttachment()
     {
-        if ( empty($_GET['actionId']) )
+        $id = !empty($_POST['actionId']) ? (int) $_POST['actionId'] : null;
+
+        if ( !$id )
         {
             throw new Redirect404Exception();
         }
 
-        $actionId = (int) $_GET['actionId'];
-        $dto = $this->service->findActionById($actionId);
+        $dto = $this->service->findActionById($id);
         $data = json_decode($dto->data, true);
 
         if( !empty($data['attachmentId']) )
