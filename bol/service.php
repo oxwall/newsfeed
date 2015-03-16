@@ -443,14 +443,14 @@ class NEWSFEED_BOL_Service
 
     //Follow
 
-    public function isFollow( $userId, $feedType, $feedId )
+    public function isFollow( $userId, $feedType, $feedId, $permission = self::PRIVACY_EVERYBODY )
     {
-        return $this->followDao->findFollow($userId, $feedType, $feedId) !== null;
+        return $this->followDao->findFollow($userId, $feedType, $feedId, $permission) !== null;
     }
 
-    public function findFollowByFeedList( $userId, $feedList )
+    public function findFollowByFeedList( $userId, $feedList, $permission = self::PRIVACY_EVERYBODY )
     {
-        $follows = $this->followDao->findFollowByFeedList($userId, $feedList);
+        $follows = $this->followDao->findFollowByFeedList($userId, $feedList, $permission);
 
         $out = array();
         foreach ( $follows as $follow )
@@ -461,9 +461,9 @@ class NEWSFEED_BOL_Service
         return $out;
     }
 
-    public function isFollowList( $userId, $feedList )
+    public function isFollowList( $userId, $feedList, $permission = self::PRIVACY_EVERYBODY )
     {
-        $follows = $this->findFollowByFeedList($userId, $feedList);
+        $follows = $this->findFollowByFeedList($userId, $feedList, $permission);
 
         $out = array();
         foreach ( $feedList as $feed )
@@ -479,19 +479,19 @@ class NEWSFEED_BOL_Service
         return $out;
     }
 
-    public function findFollowList( $feedType, $feedId )
+    public function findFollowList( $feedType, $feedId, $permission = null )
     {
-        return $this->followDao->findList($feedType, $feedId);
+        return $this->followDao->findList($feedType, $feedId, $permission);
     }
 
-    public function addFollow( $userId, $feedType, $feedId, $privacy = self::PRIVACY_EVERYBODY )
+    public function addFollow( $userId, $feedType, $feedId, $permission = self::PRIVACY_EVERYBODY )
     {
-        return $this->followDao->addFollow($userId, $feedType, $feedId, $privacy);
+        return $this->followDao->addFollow($userId, $feedType, $feedId, $permission);
     }
 
-    public function removeFollow( $userId, $feedType, $feedId )
+    public function removeFollow( $userId, $feedType, $feedId, $permission = null )
     {
-        return $this->followDao->removeFollow($userId, $feedType, $feedId);
+        return $this->followDao->removeFollow($userId, $feedType, $feedId, $permission);
     }
 
     public function isLiked( $userId, $entityType, $entityId )
