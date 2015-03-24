@@ -78,9 +78,9 @@ class NEWSFEED_BOL_FollowDao extends OW_BaseDao
         return OW_DB_PREFIX . 'newsfeed_follow';
     }
 
-    public function addFollow( $userId, $feedType, $feedId, $type )
+    public function addFollow( $userId, $feedType, $feedId, $permission = NEWSFEED_BOL_Service::PRIVACY_EVERYBODY )
     {
-        $dto = $this->findFollow($userId, $feedType, $feedId);
+        $dto = $this->findFollow($userId, $feedType, $feedId, $permission);
 
         if ( $dto === null )
         {
@@ -91,23 +91,28 @@ class NEWSFEED_BOL_FollowDao extends OW_BaseDao
             $dto->followTime = time();
         }
 
-        $dto->permission = $type;
+        $dto->permission = $permission;
         $this->save($dto);
 
         return $dto;
     }
 
-    public function findFollow( $userId, $feedType, $feedId )
+    public function findFollow( $userId, $feedType, $feedId, $permission = NEWSFEED_BOL_Service::PRIVACY_EVERYBODY )
     {
         $example = new OW_Example();
         $example->andFieldEqual('userId', $userId);
         $example->andFieldEqual('feedId', $feedId);
         $example->andFieldEqual('feedType', $feedType);
+        
+        if ( !empty($permission) )
+        {
+            $example->andFieldEqual('permission', $permission);
+        }
 
         return $this->findObjectByExample($example);
     }
 
-    public function findFollowByFeedList( $userId, $feedList )
+    public function findFollowByFeedList( $userId, $feedList , $permission = NEWSFEED_BOL_Service::PRIVACY_EVERYBODY )
     {
         if ( empty($feedList) )
         {
@@ -117,7 +122,12 @@ class NEWSFEED_BOL_FollowDao extends OW_BaseDao
         $where = array();
         foreach ( $feedList as $feed )
         {
-            $where[] = '(`feedType`="' . $feed["feedType"] . '" AND `feedId`="' . $feed["feedId"] . '")';
+            $perm = empty($feed["permission"]) ? $permission : $feed["permission"];
+            $permWhere = empty($perm) ? "1" : 'permission="' . $this->dbo->escapeString($perm) . '"';
+            
+            $where[] = '(`feedType`="' . $this->dbo->escapeString($feed["feedType"]) 
+                    . '" AND `feedId`="' . $this->dbo->escapeString($feed["feedId"]) 
+                    . '" AND ' . $permWhere . ' )';
         }
 
         $query = "SELECT * FROM " . $this->getTableName() . " WHERE `userId`=:u AND ( " . implode(" OR ", $where) . " )";
@@ -127,22 +137,32 @@ class NEWSFEED_BOL_FollowDao extends OW_BaseDao
         ));
     }
 
-    public function findList( $feedType, $feedId )
+    public function findList( $feedType, $feedId, $permission = null )
     {
         $example = new OW_Example();
 
         $example->andFieldEqual('feedId', $feedId);
         $example->andFieldEqual('feedType', $feedType);
+        
+        if ( !empty($permission) )
+        {
+            $example->andFieldEqual('permission', $permission);
+        }
 
         return $this->findListByExample($example);
     }
 
-    public function removeFollow( $userId, $feedType, $feedId )
+    public function removeFollow( $userId, $feedType, $feedId, $permission = null )
     {
         $example = new OW_Example();
         $example->andFieldEqual('userId', $userId);
         $example->andFieldEqual('feedId', $feedId);
         $example->andFieldEqual('feedType', $feedType);
+        
+        if ( !empty($permission) )
+        {
+            $example->andFieldEqual('permission', $permission);
+        }
 
         return $this->deleteByExample($example);
     }

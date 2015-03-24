@@ -769,27 +769,41 @@ class NEWSFEED_CLASS_EventHandler
 
         $this->validateParams($params, array('feedType', 'feedId', 'userId'));
 
+        if ( !empty($params["permission"]) )
+        {
+            $this->service->addFollow($params['userId'], $params['feedType'], $params['feedId'], $params["permission"]);
+            
+            return;
+        }
+        
         $event = new BASE_CLASS_EventCollector('feed.collect_follow_permissions', $params);
         OW::getEventManager()->trigger($event);
 
         $data = $event->getData();
-        $type = empty($data) ? NEWSFEED_BOL_Service::PRIVACY_EVERYBODY : end($data); // TODO to remove the stub
-
-        $this->service->addFollow($params['userId'], $params['feedType'], $params['feedId'], $type);
+        $data[] = NEWSFEED_BOL_Service::PRIVACY_EVERYBODY;
+        
+        foreach ( array_unique($data) as $permission )
+        {
+            $this->service->addFollow($params['userId'], $params['feedType'], $params['feedId'], $permission);
+        }
     }
 
     public function removeFollow( OW_Event $e )
     {
         $params = $e->getParams();
         $this->validateParams($params, array('feedType', 'feedId', 'userId'));
-        $this->service->removeFollow($params['userId'], $params['feedType'], $params['feedId']);
+        
+        $permission = empty($params['permission']) ? null : $params['permission'];
+        $this->service->removeFollow($params['userId'], $params['feedType'], $params['feedId'], $permission);
     }
 
     public function isFollow( OW_Event $e )
     {
         $params = $e->getParams();
         $this->validateParams($params, array('feedType', 'feedId', 'userId'));
-        $result = $this->service->isFollow($params['userId'], $params['feedType'], $params['feedId']);
+        
+        $permission = empty($params['permission']) ? NEWSFEED_BOL_Service::PRIVACY_EVERYBODY : $params['permission'];
+        $result = $this->service->isFollow($params['userId'], $params['feedType'], $params['feedId'], $permission);
         $e->setData($result);
 
         return $result;
@@ -800,7 +814,8 @@ class NEWSFEED_CLASS_EventHandler
         $params = $e->getParams();
         $this->validateParams($params, array('feedList', 'userId'));
 
-        $result = $this->service->isFollowList($params['userId'], $params['feedList']);
+        $permission = empty($params['permission']) ? null : $params['permission'];
+        $result = $this->service->isFollowList($params['userId'], $params['feedList'], $permission);
         $e->setData($result);
 
         return $result;
@@ -812,7 +827,8 @@ class NEWSFEED_CLASS_EventHandler
 
         $this->validateParams($params, array('feedType', 'feedId'));
 
-        $list = $this->service->findFollowList($params['feedType'], $params['feedId']);
+        $permission = empty($params['permission']) ? null : $params['permission'];
+        $list = $this->service->findFollowList($params['feedType'], $params['feedId'], $permission);
         $out = array();
 
         foreach ( $list as $item )

@@ -336,7 +336,7 @@ class NEWSFEED_BOL_ActionDao extends OW_BaseDao
 
             GROUP BY b.`id` ORDER BY MAX(b.timeStamp) DESC ' . $limitStr;
 
-        $idList = $this->dbo->queryForColumnList($query, array(
+        $idList = array_unique($this->dbo->queryForColumnList($query, array(
             'u' => $userId,
             'va' => NEWSFEED_BOL_Service::VISIBILITY_AUTHOR,
             'vf' => NEWSFEED_BOL_Service::VISIBILITY_FOLLOW,
@@ -346,8 +346,8 @@ class NEWSFEED_BOL_ActionDao extends OW_BaseDao
             'peb' => NEWSFEED_BOL_Service::PRIVACY_EVERYBODY,
             'ac' => NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_CREATE,
             'as' => NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_SUBSCRIBE
-        ));
-
+        )));
+        
         if ( $limit[0] == 0 )
         {
             $cacheLifeTime = self::CACHE_LIFETIME;
