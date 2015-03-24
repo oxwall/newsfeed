@@ -76,17 +76,17 @@ CREATE TABLE `{$dbPrefix}newsfeed_activity` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 
 $sql[] ="
-CREATE TABLE `{$dbPrefix}newsfeed_follow` (
-  `id` int(11) NOT NULL auto_increment,
+CREATE TABLE IF NOT EXISTS `{$dbPrefix}newsfeed_follow` (
+  `id` int(11) NOT NULL,
   `feedId` int(11) NOT NULL,
-  `feedType` varchar(100) NOT NULL,
+  `feedType` varchar(60) NOT NULL,
   `userId` int(11) NOT NULL,
-  `permission` varchar(255) NOT NULL default 'everybody',
-  `followTime` int(11) NOT NULL,
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `feedId` (`feedType`,`feedId`,`userId`),
-  KEY `userId` (`userId`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
+  `permission` varchar(60) NOT NULL DEFAULT 'everybody',
+  `followTime` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+$sql[] ="ALTER TABLE `{$dbPrefix}newsfeed_follow` ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `feedId` (`feedId`,`userId`,`feedType`,`permission`), ADD KEY `userId` (`userId`);";
+$sql[] ="ALTER TABLE `{$dbPrefix}newsfeed_follow` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;";
 
 $sql[] ="
 CREATE TABLE IF NOT EXISTS `{$dbPrefix}newsfeed_cron_command` (
