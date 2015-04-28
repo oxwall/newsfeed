@@ -1,8 +1,14 @@
 window.ow_newsfeed_const = {};
 window.ow_newsfeed_feed_list = {};
 
-var NEWSFEED_Ajax = function( url, data, callback ) {
-    return $.getJSON(url, data, callback);
+var NEWSFEED_Ajax = function( url, data, callback, type ) {
+    $.ajax({
+        type: type === "POST" ? type : "GET",
+        url: url,
+        data: data,
+        success: callback || $.noop(),
+        dataType: "json"
+    });
 };
 
 var NEWSFEED_MobileFeed = function(autoId, data)
@@ -283,10 +289,9 @@ NEWSFEED_MobileFeedItem.prototype =
 
     remove: function()
     {
-        var self = this, rsp = window.ow_newsfeed_const.DELETE_RSP;
+        var self = this;
 
-        $.get(rsp, {actionId: this.id}, function( msg )
-        {
+        NEWSFEED_Ajax(window.ow_newsfeed_const.DELETE_RSP, {actionId: this.id}, function( msg ) {
             if ( self.displayType === 'page' )
             {
                 if ( msg )
@@ -296,8 +301,8 @@ NEWSFEED_MobileFeedItem.prototype =
 
                 self.$removeBtn.hide();
             }
-        });
-
+        }, "POST");
+ 
         if ( self.displayType !== 'page' )
         {
             $(this.containerNode).remove();
@@ -347,7 +352,7 @@ NEWSFEED_MobileFeatureLikes.prototype = {
             self.likesInprogress = false;
             self.node.find(".owm_newsfeed_control_counter").text(c.count);
             self.liked = !self.liked;
-        });
+        }, "POST");
     },
     
     like: function() {
