@@ -699,7 +699,7 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             'permalink' => $permalink,
             'cycle' => $cycle
         );
- printVar($data['view']);
+ 
         $item['autoId'] = $this->autoId;
  
         $item['features'] = $this->getFeatures($data);
