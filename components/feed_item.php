@@ -79,7 +79,7 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             'format' => $_action->getFormat()
         );
 
-        $view = array( 'iconClass' => 'ow_ic_add', 'class' => '', 'style' => '' );
+        $view = array( 'iconClass' => 'ow_ic_info', 'class' => '', 'style' => '' );
         $defaults = array(
             'line' => null, 'string' => null, 'content' => null, 'toolbar' => array(), 'context' => array(),
             'features' => array( 'comments', 'likes' ), 'contextMenu' => array()
