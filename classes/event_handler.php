@@ -1174,22 +1174,37 @@ class NEWSFEED_CLASS_EventHandler
             ));
         }
         
-        // Flags
+        $e->setData($data);
+    }
+    
+    public function feedItemRenderFlagBtn( OW_Event $e )
+    {
+        $params = $e->getParams();
+        $data = $e->getData();
+
+        $userId = OW::getUser()->getId();
+        
+        if ( empty($userId) || $params['action']['userId'] == $userId )
+        {
+            return;
+        }
         
         $contentType = BOL_ContentService::getInstance()->getContentTypeByEntityType($params['action']['entityType']);
         $flagsAllowed = !empty($contentType) && in_array(BOL_ContentService::MODERATION_TOOL_FLAG, $contentType["moderation"]);
         
-        if ( $params['action']['userId'] != OW::getUser()->getId() && $flagsAllowed )
+        if ( !$flagsAllowed )
         {
-            array_unshift($data['contextMenu'], array(
-                'label' => OW::getLanguage()->text('base', 'flag'),
-                'attributes' => array(
-                    'onclick' => 'OW.flagContent($(this).data().etype, $(this).data().eid)',
-                    "data-etype" => $params['action']['entityType'],
-                    "data-eid" => $params['action']['entityId']
-                )
-            ));
+            return;
         }
+        
+        array_unshift($data['contextMenu'], array(
+            'label' => OW::getLanguage()->text('base', 'flag'),
+            'attributes' => array(
+                'onclick' => 'OW.flagContent($(this).data().etype, $(this).data().eid)',
+                "data-etype" => $params['action']['entityType'],
+                "data-eid" => $params['action']['entityId']
+            )
+        ));
         
         $e->setData($data);
     }

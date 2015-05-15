@@ -44,6 +44,7 @@ OW::getEventManager()->bind(OW_EventManager::ON_AFTER_PLUGIN_ACTIVATE, array($ev
 OW::getEventManager()->bind(OW_EventManager::ON_BEFORE_PLUGIN_UNINSTALL, array($eventHandler, 'onPluginUninstall'));
 OW::getEventManager()->bind('feed.on_item_render', array($eventHandler, 'desktopItemRender'));
 OW::getEventManager()->bind(BASE_CMP_ProfileActionToolbar::EVENT_NAME, array($eventHandler, 'onCollectProfileActions'));
+OW::getEventManager()->bind('feed.on_item_render', array($eventHandler, 'feedItemRenderFlagBtn'));
 
 // Formats
 NEWSFEED_CLASS_FormatManager::getInstance()->init();
