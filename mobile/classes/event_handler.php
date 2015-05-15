@@ -192,6 +192,40 @@ class NEWSFEED_MCLASS_EventHandler
         $event->add($feed->render());
     }
     
+    public function feedItemRenderFlagBtn( OW_Event $e )
+    {
+        $params = $e->getParams();
+        $data = $e->getData();
+
+        $userId = OW::getUser()->getId();
+        
+        if ( empty($userId) || $params['action']['userId'] == $userId )
+        {
+            return;
+        }
+        
+        $contentType = BOL_ContentService::getInstance()->getContentTypeByEntityType($params['action']['entityType']);
+        $flagsAllowed = !empty($contentType) && in_array(BOL_ContentService::MODERATION_TOOL_FLAG, $contentType["moderation"]);
+        
+        if ( !$flagsAllowed )
+        {
+            return;
+        }
+        
+        OW::getLanguage()->addKeyForJs("base", "flag_as");
+        
+        array_unshift($data['contextMenu'], array(
+            'label' => OW::getLanguage()->text('base', 'flag'),
+            'attributes' => array(
+                'onclick' => 'OWM.flagContent($(this).data().etype, $(this).data().eid)',
+                "data-etype" => $params['action']['entityType'],
+                "data-eid" => $params['action']['entityId']
+            )
+        ));
+        
+        $e->setData($data);
+    }
+    
     public function onMobileTopMenuAddLink( BASE_CLASS_EventCollector $event )
     {
         $event->add(array(

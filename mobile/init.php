@@ -13,6 +13,8 @@ OW::getEventManager()->bind("mobile.content.profile_view_bottom", array($eventHa
 OW::getEventManager()->bind('base.mobile_top_menu_add_options', array($eventHandler, 'onMobileTopMenuAddLink'));
 OW::getEventManager()->bind('mobile.notifications.on_item_render', array($eventHandler, 'onNotificationRender'));
 
+OW::getEventManager()->bind('feed.on_item_render', array($eventHandler, 'feedItemRenderFlagBtn'));
+
 // Formats
 NEWSFEED_CLASS_FormatManager::getInstance()->init();
 
