@@ -64,7 +64,7 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
         }
 
         $entityType = !empty($_POST['entityType']) ?  $_POST['entityType'] : null;
-        $entityId = !empty($_POST['entityId']) ? (int) $_POST['entityId'] : null;
+        $entityId = !empty($_POST['entityId']) ? $_POST['entityId'] : null;
 
         $like = $this->service->addLike(OW::getUser()->getId(), $entityType, $entityId);
 

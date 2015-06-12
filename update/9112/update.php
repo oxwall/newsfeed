@@ -28,21 +28,9 @@
  * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-/**
- *
- * @author Sergey Kambalin <greyexpert@gmail.com>
- * @package ow_plugins.newsfeed.classes
- * @since 1.0
- */
-class NEWSFEED_CLASS_Identifier
+try 
 {
-    public $id;
-    public $type;
-    
-    public function __construct($type, $id)
-    {
-        $this->type = trim($type);
-        $this->id = $id;
-    }
-}
+    Updater::getDbo()->query("ALTER TABLE `" . OW_DB_PREFIX . "newsfeed_like` CHANGE `entityId` `entityId` VARCHAR(100) NOT NULL");
+} 
+catch (Exception $ex) {}
+
