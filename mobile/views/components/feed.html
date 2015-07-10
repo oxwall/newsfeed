@@ -1,5 +1,9 @@
 <div id="{$autoId}" class="owm_newsfeed_block">
-    {if !empty($status)}
+    {if !empty($statusMessage)}
+        <div class="owm_anno owm_info owm_small_margin_bottom">
+            {$statusMessage}
+        </div>
+    {elseif !empty($status)}
         {$status}
     {/if}
     
