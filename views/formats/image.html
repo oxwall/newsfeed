@@ -3,6 +3,6 @@
 <div class="ow_newsfeed_large_image clearfix">
     <div class="ow_newsfeed_item_picture">
         <a {if empty($vars.url)}href="{$vars.image}" onclick="OW.showImageInFloatBox(this.href); return false;"{else}href="{$vars.url}"{/if}>
-            <img src="{$vars.image}"></a>
+            <img src="{$vars.image}"{if !empty($vars.class)} class="{$vars.class}"{/if}></a>
     </div>
 </div>
