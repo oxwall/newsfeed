@@ -182,7 +182,7 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             'feedAutoId' => $this->sharedData['feedAutoId'],
             'autoId' => $this->autoId
         );
-
+        
         $data['action'] = array(
             'userId' => $action->getUserId(), // backward compatibility with desktop version
             "userIds" => $creatorIdList,
@@ -204,11 +204,14 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             $data = $this->extendAction($data, $lastActivity);
             $data = $this->extendActionData($data, $lastActivity);
         }
- 
+        
         $event = new OW_Event('feed.on_item_render', $eventParams, $data);
         OW::getEventManager()->trigger($event);
- 
-        return $this->mergeData( $event->getData(), $action );
+        
+        $outData = $event->getData();
+        $outData["lastActivity"] = $lastActivity;
+         
+        return $this->mergeData( $outData, $action );
     }
     
     protected function applyRespond( $data, $respondActivity )
@@ -697,7 +700,8 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             "user" => reset($creatorsInfo),
             'users' => $creatorsInfo,
             'permalink' => $permalink,
-            'cycle' => $cycle
+            'cycle' => $cycle,
+            'activity' => $data['lastActivity'],
         );
  
         $item['autoId'] = $this->autoId;

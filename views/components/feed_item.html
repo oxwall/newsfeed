@@ -5,7 +5,7 @@
     }
 {/literal}{/style}
 
-<li id="{$item.autoId}" class="ow_newsfeed_item {$item.view.class} {if !empty($item.line)}ow_newsfeed_line_item{/if}" style="{$item.view.style}">
+<li id="{$item.autoId}" class="ow_newsfeed_item {$item.view.class} {if !empty($item.line)}ow_newsfeed_line_item{/if}" {if $item.view.style}style="{$item.view.style}"{/if} data-entity-type="{$item.entityType}" {if !empty($item.activity)}data-activity-type="{$item.activity.activityType}"{/if}>
 	<div class="clearfix">
             
 	    {if empty($item.line)}
