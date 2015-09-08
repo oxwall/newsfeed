@@ -168,7 +168,7 @@ class NEWSFEED_MCLASS_EventHandler
 
         $isBloacked = BOL_UserService::getInstance()->isBlocked(OW::getUser()->getId(), $userId);
         
-        if ( OW::getUser()->isAuthenticated() && OW::getUser()->isAuthorized('base', 'add_comment') )
+        if ( OW::getUser()->isAuthorized('base', 'add_comment') )
         {
             if ( $isBloacked )
             {
@@ -180,7 +180,16 @@ class NEWSFEED_MCLASS_EventHandler
                 $feed->addStatusForm('user', $userId, $visibility);
             }
         }
-
+        else 
+        {
+            $actionStatus = BOL_AuthorizationService::getInstance()->getActionStatus('base', 'add_comment');
+            
+            if ( $actionStatus["status"] == BOL_AuthorizationService::STATUS_PROMOTED )
+            {
+                $feed->addStatusMessage($actionStatus["msg"]);
+            }
+        }
+        
         $feed->setDisplayType(NEWSFEED_CMP_Feed::DISPLAY_TYPE_ACTIVITY);
         
         $feed->setup(array(
