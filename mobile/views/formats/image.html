@@ -5,7 +5,7 @@
             <div class="owm_newsfeed_imglist clearfix">
                 <div class="owm_newsfeed_imglist_section clearfix">
                     <div class="owm_newsfeed_imglist_item">
-                        <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}" style="background-image: url({$vars.image});"><img src="{$vars.blankImg}"></a>
+                        <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}"{if !empty($vars.class)} class="{$vars.class}"{/if} style="background-image: url({$vars.image});"><img src="{$vars.blankImg}"></a>
                     </div>
                 </div>
                 <div class="owm_newsfeed_imglist_section clearfix">
