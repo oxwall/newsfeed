@@ -273,7 +273,9 @@ NEWSFEED_MobileFeedItem.prototype =
 
         this.comments = data.comments;
         this.displayType = data.displayType;
-
+        
+        this.$contextMenu = this.$('.owm_newsfeed_context_menu');
+        this.$contextAction = this.$contextMenu.find(".owm_context_action");
         this.$removeBtn = this.$('.newsfeed_remove_btn');
         
         this.$removeBtn.click(function()
@@ -281,6 +283,11 @@ NEWSFEED_MobileFeedItem.prototype =
             if ( confirm($(this).data("confirm-msg")) )
             {
                 self.remove();
+                self.$removeBtn.hide();
+                                
+                if ( !self.$contextAction.find(".owm_newsfeed_context_list a:visible").length ) {
+                    self.$contextAction.hide();
+                }
             }
 
             return false;
@@ -298,8 +305,6 @@ NEWSFEED_MobileFeedItem.prototype =
                 {
                     OW.info(msg);
                 }
-
-                self.$removeBtn.hide();
             }
         }, "POST");
  

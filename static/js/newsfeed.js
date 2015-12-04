@@ -271,6 +271,7 @@ NEWSFEED_FeedItem.prototype =
 			this.cycle = data.cycle || {lastItem: false};
 
 			this.$contextMenu = this.$('.ow_newsfeed_context_menu');
+                        this.$contextAction = this.$contextMenu.find(".ow_context_action_block");
 
 			this.$('.ow_newsfeed_context_menu_wrap, .ow_newsfeed_line').hover(function(){
 				self.$contextMenu.show();
@@ -291,6 +292,7 @@ NEWSFEED_FeedItem.prototype =
 
                         this.$attachment = this.$('.newsfeed_attachment');
                         this.hasAttachment = this.$attachment.length;
+                        
 
                         this.$attachment.find('.newsfeed_attachment_remove').click(function(){
                             self.$attachment.animate({opacity: 'hide', height: 'hide'}, 'fast', function() {
@@ -335,6 +337,11 @@ NEWSFEED_FeedItem.prototype =
                             if ( confirm($(this).data("confirm-msg")) )
                             {
                                 self.remove();
+                                self.$removeBtn.hide();
+                                
+                                if ( !self.$contextAction.find("a:visible").length ) {
+                                    self.$contextAction.hide();
+                                }
                             }
 
                             return false;
@@ -444,8 +451,6 @@ NEWSFEED_FeedItem.prototype =
                                 {
                                     OW.info(msg);
                                 }
-
-                                self.$removeBtn.hide();
                             }
                         }, "POST");
 
