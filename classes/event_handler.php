@@ -904,11 +904,19 @@ class NEWSFEED_CLASS_EventHandler
                     break;
                 
                 case "link":
-                    $content["format"] = "image_content";
-                    $content["vars"]["image"] = $data['content']["thumbnail_url"];
-                    $content["vars"]["thumbnail"] = $data['content']["thumbnail_url"];
-                    
-                    $contentImage = $data['content']["thumbnail_url"];
+                    if ( empty($data['content']["thumbnail_url"]) )
+                    {
+                        $content["format"] = "content";
+                    }
+                    else
+                    {
+                        $content["format"] = "image_content";
+                        $content["vars"]["image"] = $data['content']["thumbnail_url"];
+                        $content["vars"]["thumbnail"] = $data['content']["thumbnail_url"];
+
+                        $contentImage = $data['content']["thumbnail_url"];
+                    }
+
                     break;
             }
         }
