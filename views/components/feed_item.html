@@ -13,7 +13,7 @@
                     {*foreach from=$item.users item="user"}
                         {decorator name="avatar_item" url=$user.url src=$user.avatarUrl label=$user.roleLabel.label labelColor=$user.roleLabel.labelColor}
                     {/foreach*}
-                    {decorator name="avatar_item" url=$item.user.url src=$item.user.avatarUrl label=$item.user.roleLabel.label labelColor=$item.user.roleLabel.labelColor}
+                    {decorator name="avatar_item" title=$item.user.name url=$item.user.url src=$item.user.avatarUrl label=$item.user.roleLabel.label labelColor=$item.user.roleLabel.labelColor}
 	        </div>
 	    {else}
 	         <div class="ow_newsfeed_line ow_smallmargin {if $item.view.iconClass}{$item.view.iconClass}{else}ow_ic_info{/if} ow_icon_control">

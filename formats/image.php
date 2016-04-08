@@ -46,7 +46,7 @@ class NEWSFEED_FORMAT_Image extends NEWSFEED_CLASS_Format
             "url" => null,
             "info" => null
         );
-        
+
         $this->vars = array_merge($defaults, $this->vars);
         $this->vars['url'] = $this->getUrl($this->vars['url']);
 
