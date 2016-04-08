@@ -2,12 +2,12 @@
 
 <div class="ow_newsfeed_oembed_atch clearfix">
     <div class="ow_newsfeed_item_picture">
-    <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}"><img src="{$vars.thumbnail}" /></a>
+    <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}"><img src="{$vars.thumbnail}" alt="{$vars.title|escape}" /></a>
     </div>
     <div class="ow_newsfeed_item_content">
         <a class="ow_newsfeed_item_title" href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}">{$vars.title}</a>
         <div class="ow_remark ow_smallmargin">{$vars.description}</div>
-        
+
         {if $vars.userList}
             <div class="owm_newsfeed_ulist">
                 <div class="owm_newsfeed_item_padding owm_newsfeed_item_box clearfix">
