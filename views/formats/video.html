@@ -12,7 +12,7 @@
 {if !empty($vars.image)}
 <div class="clearfix ow_newsfeed_oembed_atch" id="{$uniqId}">
     <div class="ow_newsfeed_item_picture">
-        <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}"><img src="{$vars.image}" /><div class="ow_oembed_video_cover"></div></a>
+        <a href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}"><img src="{$vars.image}" alt="{$vars.title|escape}" /><div class="ow_oembed_video_cover"></div></a>
     </div>
     <div class="ow_newsfeed_item_content">
         <a class="ow_newsfeed_item_title" href="{if !empty($vars.url)}{$vars.url}{else}javascript://{/if}">{$vars.title}</a>
