@@ -65,7 +65,9 @@ class NEWSFEED_FORMAT_ImageList extends NEWSFEED_CLASS_Format
         // prepare image list
         foreach ( $this->vars['list'] as $id => $image )
         {
+            $image['title'] = !empty($image['title']) ? $image['title'] : null;
             $image['url'] = $this->getUrl($image['url']);
+
             $this->list[$id] = $image;
         }
 
