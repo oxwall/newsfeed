@@ -233,6 +233,7 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
             exit;
         }
 
+
         // check permissions
         $removeAllowed = OW::getUser()->isAuthorized("newsfeed");
 
@@ -240,12 +241,35 @@ class NEWSFEED_CTRL_Ajax extends OW_ActionController
         {
             $activities = $this->service->
                     findActivity(NEWSFEED_BOL_Service::SYSTEM_ACTIVITY_CREATE . ':' . $dto->id);
+            $activityIds = [];
 
             // check for the ownership
             foreach ($activities as $activity) {
+                $activityIds[] = $activity->id;
+
                 if ( OW::getUser()->getId() == $activity->userId ) {
                     $removeAllowed = true;
                     break;
+                }
+            }
+
+            // check for the extra ownership
+            // sourced from: NEWSFEED_CLASS_EventHandler::genericItemRender
+            if ( !$removeAllowed &&  $activityIds && in_array($dto->entityType, array('user-comment', 'user-status')) )
+            {
+                $list = $this->service->findFeedListByActivityids($activityIds);
+
+                foreach ( $list as $items )
+                {
+                    foreach ( $items as $item )
+                    {
+                        if ( in_array($item->feedType, array('site', 'my', 'user'))
+                            && $item->feedType == "user" && $item->feedId == OW::getUser()->getId() )
+                        {
+                            $removeAllowed = true;
+                            break;
+                        }
+                    }
                 }
             }
         }
