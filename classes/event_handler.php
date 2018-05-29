@@ -855,7 +855,8 @@ class NEWSFEED_CLASS_EventHandler
             'entityId' => $data['statusId'],
             'postOnUserFeed' => false,
             'feedType' => $params['feedType'],
-            'feedId' => $params['feedId']
+            'feedId' => $params['feedId'],
+            'userId' => $params['userId']
         );
 
         $status = nl2br($data['status']);
