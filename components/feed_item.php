@@ -188,6 +188,9 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             "userIds" => $creatorIdList,
             'createTime' => $action->getCreateTime()
         );
+        
+        //init the var to avoid notice
+        if(!isset($shouldExtend)) { $shouldExtend = ''; }
  
         $shouldExtend = $this->displayType == NEWSFEED_CMP_Feed::DISPLAY_TYPE_ACTIVITY && $lastActivity !== null;
  
