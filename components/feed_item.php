@@ -324,7 +324,7 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             $values[] = $item;
         }
  
-        $result = str_replace($search, $values, $content);
+        $result = str_replace($search, $values, $content ?? '');
         $result = preg_replace('/\[ph\:\w+\]/', '', $result);
  
         return $result;
@@ -615,6 +615,7 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
             if ( isset($feature['allow']) )
             {
                 $commentsParams->setAddComment($feature['allow']);
+                $out['system']['comments'] = null;
             }
  
             $commentCmp = new BASE_CMP_Comments($commentsParams);
@@ -628,7 +629,9 @@ class NEWSFEED_CMP_FeedItem extends OW_Component
         if ( !empty($systemFeatures["likes"]) )
         {
            $feature = $systemFeatures['likes'];
- 
+
+           if(!$out['system']['likes']) { $out['system']['likes'] = []; }
+
            $out['system']['likes']['count'] = $feature["count"];
            $out['system']['likes']['liked'] = $feature["liked"];
            $out['system']['likes']['allow'] = $feature["allow"];
