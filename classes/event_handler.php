@@ -1441,9 +1441,7 @@ class NEWSFEED_CLASS_EventHandler
         }
 
         $actionData = json_decode($action->data, true);
-        $status = empty($actionData['data']['status'])
-            ? $actionData['string']
-            : empty($actionData['data']['status']) ? null : $actionData['data']['status'];
+        $status = (empty($actionData['data']['status']) ? $actionData['string'] : empty($actionData['data']['status'])) ? null : $actionData['data']['status'];
         
         $contentImage = empty($actionData['contentImage']) ? null : $actionData['contentImage'];
 
