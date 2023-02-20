@@ -1,3 +1,6 @@
+# Version 1.9.0 (10600)
+- php 8 support
+
 # Version 1.8.3 (10600)
 - added ALT HTML attribute for displaying thumbs of various content
 
