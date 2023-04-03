@@ -181,7 +181,7 @@ class NEWSFEED_CLASS_ContentProvider
         
         OW::getEventManager()->trigger(new OW_Event(BOL_ContentService::EVENT_BEFORE_DELETE, array(
             "entityType" => $params["entityType"],
-            "entityId" => $params["entityType"]
+            "entityId" => $params["entityId"]
         )));
     }
     
